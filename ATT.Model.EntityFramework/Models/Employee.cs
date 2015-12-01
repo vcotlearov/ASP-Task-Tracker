@@ -7,19 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ATT.Infrastructure.EntityFramework
+namespace ATT.Infrastructure.EntityFramework.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Account
+    public partial class Employee
     {
         public int ID { get; set; }
-        public System.Guid EUID { get; set; }
         public string Name { get; set; }
-        public int TypeID { get; set; }
-        public string PasswordHash { get; set; }
+        public string Surname { get; set; }
+        public System.Guid EUID { get; set; }
+        public Nullable<int> PhotoID { get; set; }
     
-        public virtual AccountType AccountType { get; set; }
+        public virtual Photo Photo { get; set; }
     }
 }

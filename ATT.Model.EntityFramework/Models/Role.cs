@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ATT.Infrastructure.EntityFramework
+namespace ATT.Infrastructure.EntityFramework.Models
 {
     using System;
     using System.Collections.Generic;

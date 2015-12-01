@@ -51,62 +51,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs">
+    <Compile Include="Models\Account.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="AccountType.cs">
+    <Compile Include="Models\AccountType.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Employee.cs">
+    <Compile Include="Models\Employee.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Permission.cs">
+    <Compile Include="Models\Permission.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Photo.cs">
+    <Compile Include="Models\Photo.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Project.cs">
+    <Compile Include="Models\Project.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Role.cs">
+    <Compile Include="Models\Role.cs">
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="TaskTracker.Context.cs">
+    <Compile Include="Models\TaskTracker.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskTracker.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="TaskTracker.cs">
+    <Compile Include="Models\TaskTracker.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="TaskTracker.Designer.cs">
+    <Compile Include="Models\TaskTracker.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskTracker.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repository\EmployeeRepository.cs" />
+    <Compile Include="Results\EmployeeRepositoryResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <EntityDeploy Include="TaskTracker.edmx">
+    <EntityDeploy Include="Models\TaskTracker.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>TaskTracker.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="TaskTracker.edmx.diagram">
+    <None Include="Models\TaskTracker.edmx.diagram">
       <DependentUpon>TaskTracker.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TaskTracker.Context.tt">
+    <Content Include="Models\TaskTracker.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaskTracker.edmx</DependentUpon>
       <LastGenOutput>TaskTracker.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="TaskTracker.tt">
+    <Content Include="Models\TaskTracker.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TaskTracker.edmx</DependentUpon>
       <LastGenOutput>TaskTracker.cs</LastGenOutput>
@@ -114,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ATT.Model\ATT.Infrastructure.csproj">
+      <Project>{10e0e87f-1905-4f79-8e44-89b8b45339d3}</Project>
+      <Name>ATT.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

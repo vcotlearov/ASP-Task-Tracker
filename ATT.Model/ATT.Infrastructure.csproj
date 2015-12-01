@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResults\IResult.cs" />
+    <Compile Include="Exceptions\TaskTrackerException.cs" />
+    <Compile Include="ActionResults\IRepositoryResult.cs" />
     <Compile Include="Models\Calendar\ICalendar.cs" />
     <Compile Include="Models\Calendar\IEvent.cs" />
+    <Compile Include="Models\Employee\Employee.cs" />
     <Compile Include="Models\Employee\IAccount.cs" />
     <Compile Include="Models\Employee\IEmployee.cs" />
     <Compile Include="Models\IObject.cs" />
@@ -51,8 +55,11 @@
     <Compile Include="Models\Security\IRole.cs" />
     <Compile Include="Models\Security\ISecurable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\IRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ActionRequest\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
