@@ -43,6 +43,7 @@
     <Compile Include="ActionResults\IResult.cs" />
     <Compile Include="Exceptions\TaskTrackerException.cs" />
     <Compile Include="ActionResults\IRepositoryResult.cs" />
+    <Compile Include="Exceptions\TaskTrackerObjectNotFoundException.cs" />
     <Compile Include="Models\Calendar\ICalendar.cs" />
     <Compile Include="Models\Calendar\IEvent.cs" />
     <Compile Include="Models\Employee\Employee.cs" />

@@ -16,34 +16,40 @@ namespace ATT.Infrastructure.EntityFramework.Repository
     public class EmployeeRepository : IRepository
     {
         private TaskTrackerEntities db;
-        private EmployeeRepositoryResult erResult;
+        private EmployeeRepositoryResult _erResult;
 
         public EmployeeRepository()
         {
             db = new TaskTrackerEntities();
-            erResult = new EmployeeRepositoryResult();
+            
         }
 
         public IRepositoryResult Find(int id)
         {
             if (db == null)
             {
-                erResult.ActionStatus = false;
-                erResult.RepositoryObjects = null;
-                erResult.ActionMessage = "Database is not available at the moment";
-                erResult.ActionInnerException = new TaskTrackerException("DB context is null", new NullReferenceException());
+                var message = "Database is not available at the moment";
+                var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
+                _erResult = new EmployeeRepositoryResult(message, exception);
 
-                return erResult;
+                return _erResult;
             }
+
+            if (id < 1)
+            {
+                var message = "Invalid identification number was specified";
+                var exception = new TaskTrackerException($"Invalid ID [{id}]", new ArgumentOutOfRangeException());
+                _erResult = new EmployeeRepositoryResult(message, exception);
+            }
+
             var dbEmp = db.Employees.Find(id);
             if (dbEmp == null)
             {
-                erResult.ActionStatus = false;
-                erResult.RepositoryObjects = null;
-                erResult.ActionMessage = "No employee was found";
-                erResult.ActionInnerException = new TaskTrackerException($"Employee with ID [{id}] not found");
+                var message = "No employee was found";
+                var exception = new TaskTrackerObjectNotFoundException($"Employee with ID [{id}] not found");
+                _erResult = new EmployeeRepositoryResult(message, exception);
 
-                return erResult;
+                return _erResult;
             }
 
             AttEmployee employee = new AttEmployee()
@@ -53,12 +59,10 @@ namespace ATT.Infrastructure.EntityFramework.Repository
                 EUID = dbEmp.EUID
             };
 
-            erResult.ActionStatus = true;
-            erResult.RepositoryObjects = new List<ISecurableObject>() { employee };
-            erResult.ActionMessage = "Success";
-            erResult.ActionInnerException = null;
+            var objects = new List<ISecurableObject>() { employee };
+            _erResult = new EmployeeRepositoryResult(objects);
 
-            return erResult;
+            return _erResult;
 
         }
 
