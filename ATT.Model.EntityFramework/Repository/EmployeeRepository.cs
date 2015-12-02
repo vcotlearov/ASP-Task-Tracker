@@ -68,7 +68,35 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public IRepositoryResult Get(ISecurableObject obj)
         {
-            throw new NotImplementedException();
+            if (db?.Employees == null)
+            {
+                var message = "Database is not available at the moment";
+                var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
+                _erResult = new EmployeeRepositoryResult(message, exception);
+
+                return _erResult;
+            }
+
+            var dbEmp = db.Employees.ToList();
+            if (dbEmp.Count == 0)
+            {
+                var message = "No employees were found";
+                var exception = new TaskTrackerObjectNotFoundException("Employees not found");
+                _erResult = new EmployeeRepositoryResult(message, exception);
+
+                return _erResult;
+            }
+
+            var employees = dbEmp.Select(employee => new AttEmployee()
+            {
+                Name = employee.Name,
+                Surname = employee.Surname,
+                EUID = employee.EUID
+            });
+
+            _erResult = new EmployeeRepositoryResult(employees);
+
+            return _erResult;
         }
 
         public IRepositoryResult Create(ISecurableObject obj)
