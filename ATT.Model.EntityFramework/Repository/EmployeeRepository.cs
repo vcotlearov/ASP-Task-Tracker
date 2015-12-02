@@ -15,18 +15,17 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 {
     public class EmployeeRepository : IRepository
     {
-        private TaskTrackerEntities db;
+        private readonly TaskTrackerEntities _db;
         private EmployeeRepositoryResult _erResult;
 
         public EmployeeRepository()
         {
-            db = new TaskTrackerEntities();
-            
+            _db = new TaskTrackerEntities();
         }
 
         public IRepositoryResult Find(int id)
         {
-            if (db == null)
+            if (_db == null)
             {
                 var message = "Database is not available at the moment";
                 var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
@@ -42,7 +41,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
                 _erResult = new EmployeeRepositoryResult(message, exception);
             }
 
-            var dbEmp = db.Employees.Find(id);
+            var dbEmp = _db.Employees.Find(id);
             if (dbEmp == null)
             {
                 var message = "No employee was found";
@@ -68,7 +67,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public IRepositoryResult Get(ISecurableObject obj)
         {
-            if (db?.Employees == null)
+            if (_db?.Employees == null)
             {
                 var message = "Database is not available at the moment";
                 var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
@@ -77,7 +76,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
                 return _erResult;
             }
 
-            var dbEmp = db.Employees.ToList();
+            var dbEmp = _db.Employees.ToList();
             if (dbEmp.Count == 0)
             {
                 var message = "No employees were found";
@@ -101,7 +100,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public IRepositoryResult Create(ISecurableObject obj)
         {
-            if (db?.Employees == null)
+            if (_db?.Employees == null)
             {
                 var message = "Database is not available at the moment";
                 var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
@@ -129,8 +128,8 @@ namespace ATT.Infrastructure.EntityFramework.Repository
             };
 
 
-            var dbEmp = db.Employees.Add(emp);
-            db.SaveChanges();
+            var dbEmp = _db.Employees.Add(emp);
+            _db.SaveChanges();
 
             newEmployee = new AttEmployee(dbEmp.ID)
             {
@@ -157,7 +156,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public void Dispose()
         {
-            db?.Dispose();
+            _db?.Dispose();
         }
     }
 }

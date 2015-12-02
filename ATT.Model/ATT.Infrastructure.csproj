@@ -46,7 +46,8 @@
     <Compile Include="Exceptions\TaskTrackerObjectNotFoundException.cs" />
     <Compile Include="Models\Calendar\ICalendar.cs" />
     <Compile Include="Models\Calendar\IEvent.cs" />
-    <Compile Include="Models\Employee\Employee.cs" />
+    <Compile Include="Models\Employee\AttAccount.cs" />
+    <Compile Include="Models\Employee\AttEmployee.cs" />
     <Compile Include="Models\Employee\IAccount.cs" />
     <Compile Include="Models\Employee\IEmployee.cs" />
     <Compile Include="Models\IObject.cs" />

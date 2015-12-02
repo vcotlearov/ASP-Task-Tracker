@@ -88,7 +88,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TaskTracker.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Repository\AccountRepository.cs" />
     <Compile Include="Repository\EmployeeRepository.cs" />
+    <Compile Include="Results\AccountRepositoryResult.cs" />
     <Compile Include="Results\EmployeeRepositoryResult.cs" />
   </ItemGroup>
   <ItemGroup>
