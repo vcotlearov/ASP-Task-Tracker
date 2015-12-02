@@ -52,7 +52,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
                 return _erResult;
             }
 
-            AttEmployee employee = new AttEmployee()
+            AttEmployee employee = new AttEmployee(dbEmp.ID)
             {
                 Name = dbEmp.Name,
                 Surname = dbEmp.Surname,
@@ -87,7 +87,7 @@ namespace ATT.Infrastructure.EntityFramework.Repository
                 return _erResult;
             }
 
-            var employees = dbEmp.Select(employee => new AttEmployee()
+            var employees = dbEmp.Select(employee => new AttEmployee(employee.ID)
             {
                 Name = employee.Name,
                 Surname = employee.Surname,
@@ -101,7 +101,48 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public IRepositoryResult Create(ISecurableObject obj)
         {
-            throw new NotImplementedException();
+            if (db?.Employees == null)
+            {
+                var message = "Database is not available at the moment";
+                var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
+                _erResult = new EmployeeRepositoryResult(message, exception);
+
+                return _erResult;
+            }
+
+            var newEmployee = obj as AttEmployee;
+
+            if (newEmployee == null)
+            {
+                var message = "Please specify valid data for Employee";
+                var exception = new TaskTrackerException("object cannot be cast to Employee", new ArgumentException());
+                _erResult = new EmployeeRepositoryResult(message, exception);
+
+                return _erResult;
+            }
+
+            var emp = new Employee()
+            {
+                EUID = new Guid(),
+                Name = newEmployee.Name,
+                Surname = newEmployee.Surname
+            };
+
+
+            var dbEmp = db.Employees.Add(emp);
+            db.SaveChanges();
+
+            newEmployee = new AttEmployee(dbEmp.ID)
+            {
+                Name = dbEmp.Name,
+                Surname = dbEmp.Surname,
+                EUID = dbEmp.EUID
+            };
+
+            var objects = new List<ISecurableObject>() { newEmployee };
+            _erResult = new EmployeeRepositoryResult(objects);
+
+            return _erResult;
         }
 
         public IRepositoryResult Update(ISecurableObject obj)

@@ -9,6 +9,7 @@ namespace ATT.Infrastructure.Models.Employee
 {
     public class AttEmployee: IEmployee
     {
+        public int Id { get; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public Guid EUID { get; set; }
@@ -20,5 +21,14 @@ namespace ATT.Infrastructure.Models.Employee
         }
 
         public ISecurableObject Parent { get; set; }
+
+        public AttEmployee()
+        {
+        }
+
+        public AttEmployee(int id)
+        {
+            Id = id;
+        }
     }
 }
