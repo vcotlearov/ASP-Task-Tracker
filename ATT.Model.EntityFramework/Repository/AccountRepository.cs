@@ -65,12 +65,94 @@ namespace ATT.Infrastructure.EntityFramework.Repository
 
         public IRepositoryResult Get(ISecurableObject obj)
         {
-            throw new NotImplementedException();
+            if (_db?.Accounts == null)
+            {
+                var message = "Database is not available at the moment";
+                var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
+                _arResult = new AccountRepositoryResult(message, exception);
+
+                return _arResult;
+            }
+
+            var queryAccount = obj as AttAccount;
+
+            if (queryAccount == null)
+            {
+                var message = "Please specify valid data for Account";
+                var exception = new TaskTrackerException("object cannot be cast to Account", new ArgumentException());
+                _arResult = new AccountRepositoryResult(message, exception);
+
+                return _arResult;
+            }
+
+            var dbAcc = _db.Accounts.Where(acc=>acc.EUID == queryAccount.EUID);
+            if (!dbAcc.Any())
+            {
+                var message = "No accounts were found";
+                var exception = new TaskTrackerObjectNotFoundException("Accounts not found");
+                _arResult = new AccountRepositoryResult(message, exception);
+
+                return _arResult;
+            }
+
+            var accounts = dbAcc.Select(account => new AttAccount(account.ID)
+            {
+               Name = account.Name,
+               EUID = account.EUID,
+               PasswordHash = account.PasswordHash
+            });
+
+            _arResult = new AccountRepositoryResult(accounts);
+
+            return _arResult;
         }
 
         public IRepositoryResult Create(ISecurableObject obj)
         {
-            throw new NotImplementedException();
+            if (_db?.Accounts == null)
+            {
+                var message = "Database is not available at the moment";
+                var exception = new TaskTrackerException("DB context is null", new NullReferenceException());
+                _arResult = new AccountRepositoryResult(message, exception);
+
+                return _arResult;
+            }
+
+            var newAccount = obj as AttAccount;
+
+            if (newAccount == null)
+            {
+                var message = "Please specify valid data for Account";
+                var exception = new TaskTrackerException("object cannot be cast to Account", new ArgumentException());
+                _arResult = new AccountRepositoryResult(message, exception);
+
+                return _arResult;
+            }
+
+            var acc = new Account()
+            {
+                
+                EUID = new Guid(),
+                Name = newAccount.Name,
+                PasswordHash = newAccount.PasswordHash,
+                TypeID = newAccount.Type.Id
+            };
+
+
+            var dbAcc = _db.Accounts.Add(acc);
+            _db.SaveChanges();
+
+            newAccount = new AttAccount(dbAcc.ID)
+            {
+                Name = dbAcc.Name,
+                EUID = dbAcc.EUID,
+                Type = new AttAccountType(dbAcc.TypeID)
+            };
+
+            var objects = new List<ISecurableObject>() { newAccount };
+            _arResult = new AccountRepositoryResult(objects);
+
+            return _arResult;
         }
 
         public IRepositoryResult Update(ISecurableObject obj)

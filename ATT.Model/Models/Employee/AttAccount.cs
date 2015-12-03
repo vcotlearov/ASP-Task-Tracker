@@ -7,12 +7,15 @@ using ATT.Infrastructure.Models.Security;
 
 namespace ATT.Infrastructure.Models.Employee
 {
-    public class AttAccount : ISecurableObject
+    public class AttAccount : IAccount
     {
 
         public int Id { get; }
+        public IEmployee Employee { get; }
         public string Name { get; set; }
         public string PasswordHash { get; set; }
+        public AttAccountType Type { get; set; }
+        public IEnumerable<IRole> Roles { get; }
         public Guid EUID { get; set; }
         public bool IsInheritedPermissions { get; }
         public ISecurableObject Parent { get; }
